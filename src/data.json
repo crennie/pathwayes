@@ -1,0 +1,146 @@
+{"paths":[
+	{
+		"path": "This is one item I want to be asked questions about",
+		"extra_text": "This is extra text that can be added to an answer to help someone answer it.",
+		"questions":[
+			{
+				"type":"single",
+				"question":"Please answer this regular question that is being answered after one of the multi-select questions and adds to progress of that item.",
+				"extra_text":"This is extra text that can be added below the question to help someone answer it.",
+				"answers":[
+					{
+						"answer":"Yes, I am answering this question in the positive because I agree with it"
+					},
+					{
+						"answer":"No, I am answering this question in the negative because I disagree with it",
+						"extra_text":"This is extra text that can be added to an answer to help someone answer it."
+					}
+				]
+			},
+			{
+				"type":"template",
+				"template_folder":"data/template/",			
+				"template_name":"template"		
+			},
+			{
+				"type":"multiple",
+				"question":"Question2 multiple type",
+				"extra_text":"extra text",
+				"answers":[
+					{
+						"answer":"item1"
+					},
+					{
+						"answer":"item2"
+					},
+					{
+						"answer":"item3"
+					}
+				]
+			}		
+		]
+	},
+	{
+		"path": "This is another item I may want to be asked questions about",
+		"questions":[
+			{
+				"type":"single",
+				"question":"Question1 - path2",
+				"answers":[
+					{
+						"answer":"Yes"
+					},
+					{
+						"answer":"No"
+					}
+				]
+			},
+			{
+				"type":"single",
+				"question":"Question2 - path2",
+				"extra_text":"extra text",
+				"answers":[
+					{
+						"answer":"Yes"
+					},
+					{
+						"answer":"No"
+					}
+				]
+			},
+			{
+				"type":"single",
+				"question":"Question3 - path2",
+				"extra_text":"extra text",
+				"answers":[
+					{
+						"answer":"Yes"
+					},
+					{
+						"answer":"No"
+					}
+				]
+			}	
+		]		
+	},
+	{
+		"path": "This is another item I want to be asked questions about",
+		"questions":[
+			{
+				"type":"single",
+				"question":"Question1 - path3",
+				"answers":[
+					{
+						"answer":"Yes"
+					},
+					{
+						"answer":"No"
+					}
+				]
+			},
+			{
+				"type":"single",
+				"question":"Question2 - path3",
+				"extra_text":"extra text",
+				"answers":[
+					{
+						"answer":"Yes"
+					},
+					{
+						"answer":"No"
+					}
+				]
+			}	
+		]		
+	},
+	{
+		"path": "This is yet another item that I want to be asked questions about",
+		"questions":[
+			{
+				"type":"single",
+				"question":"Question1 - path4",
+				"answers":[
+					{
+						"answer":"Yes"
+					},
+					{
+						"answer":"No"
+					}
+				]
+			},
+			{
+				"type":"single",
+				"question":"Question2 - path4",
+				"answers":[
+					{
+						"answer":"Yes"
+					},
+					{
+						"answer":"No"
+					}
+				]
+			}	
+		]
+	}
+]
+}

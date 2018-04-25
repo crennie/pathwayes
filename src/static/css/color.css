@@ -1,0 +1,150 @@
+/* CONTAINER */
+#container{
+	background-color: #F3F3F3;
+}
+/* HEADER */
+#header{
+	background-color: #396782;
+	color: #FFF;
+}
+/* menu */
+#menu{
+	background-color: #396782;
+}
+#menu li:hover{
+	color: #CCC;
+}
+#menu,
+#menu li{
+	border-color: #4E819F;
+}
+/* MAIN */
+#main .max_width{
+	background-color: #FFF;
+}
+#loading_bg{
+	background-color: #000000;
+}
+/* sidebar */
+#sidebar{
+	background-color: #FFF;
+	border-color: #DEDDDC;
+}
+/* basket */
+#basket .empty p{
+	color: #DEDDDC;
+}
+#basket_list .info p{
+	color: #6A6764;
+}
+.path_basket{
+	border-color: #AAA5A1;
+	color: #6A6764;
+}
+.path_basket h4{
+	color: #FFF;
+	background-color: #AAA5A1;
+}
+.path_basket.progress h4{
+	background-color: #55738E;
+}
+.path_basket.progress{
+	border-color: #55738E;
+}
+.path_basket.progress p{
+	color: #070606;
+}
+.path_basket.completed .progress_bg{
+	background-color: #E9F3DF;
+}
+.path_basket .progress_bg{
+	background-color: #F3F6FB;
+}
+#preview_btn{
+	color: #4C8BC8;
+}
+/* help */
+#help  h3{
+	color: #AAA5A1;
+}
+#help li.help_faq p{
+	color: #696765;
+}
+#help .help_close_btn{
+	color: #4C8CC8;
+}
+#help li.help_url a{
+	color: #417CBC;
+}
+#help li{
+	color: #0F0E0F;
+}
+/* question contents */
+#contents{
+	background-color: #FFF;
+}
+#contents .select_paths h2{
+	background-color: #6693AC;
+	color: #FFF;
+}
+#contents .item ul li{
+	color: #777777;
+}
+#contents .item ul li.selected{
+	color: #0A0A0A;	
+}
+#contents .item .question_text{
+	color: #0A0A0A;
+}
+#contents .item .paths_count{
+	color: #A9A5A0;
+}
+#contents .item .question_extra_text,
+#contents .item .extra_text{
+	color: #A9A5A0;
+}
+#contents #preview_report *{
+	color: #0A0A0A;
+}
+#contents #preview_report li p{
+	color: #6A6764;
+}
+#contents #preview_report fieldset{
+	border-color: #DEDDDC;
+}
+#contents #preview_report label{
+	color: #0A0A0A;
+}
+/* FOOTER */
+#footer{
+	background-color: #396782;
+}
+#footer,
+#footer .btn{
+	color: #FFF;
+}
+#footer #back_btn,
+#footer #next_btn{
+	color: #91A0B2;
+}
+#footer .delimiter{
+	color: #91A1B3;
+}
+#footer .btn.enable span{
+	color: #FFF;
+}
+/* ALERT */
+#alert_bg{
+	background-color: #14161B;
+}
+#alert_box h4{
+	background-color: #396782;
+	color: #FFF;
+}
+#alert_box div{
+	background-color: #FFF;
+	color: #070606;
+}
+#alert_box button{
+	color: #4D8CC8;
+}

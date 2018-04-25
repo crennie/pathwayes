@@ -1,0 +1,99 @@
+/* FOOTER */
+#footer{	
+	width: 100%;
+	height: 59px;
+	line-height: 59px;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;	
+}
+#footer .controls{
+	padding-left: 15px;
+	padding-right: 12px;
+}
+#footer button span,
+#loading{
+	font-size: 200%;
+}
+#footer .controls{
+	height: 100%;
+}
+#footer .btn{
+	display: block;	
+	height: 43px;
+	margin-top: 8px;
+	background-repeat: no-repeat;
+}
+#basket_btn{
+	visibility: hidden;
+	float: left;
+	width: 37px;
+	height: 36px;
+	cursor: pointer;
+	margin-top: 5px;
+	background: url('../img/footer/Icon_Basket_Mobile.gif');
+}
+#back_btn,
+#next_btn{
+	float: right;
+	line-height: 20px;
+}
+#back_btn{
+	padding-left: 49px;
+	background-image: url('../img/footer/Icon_BackDis.gif');
+}
+#next_btn{
+	padding-right: 49px;
+	background-image: url('../img/footer/Icon_NextDis.gif');
+	background-position: right center;
+}
+#next_btn.enable{
+	cursor: pointer;
+	background-image: url('../img/footer/Icon_NextGlo.gif');
+}
+#back_btn.enable{
+	cursor: pointer;
+	background-image: url('../img/footer/Icon_Back.gif');
+}
+#loading{
+	visibility: hidden;
+	float: right;
+	display: block;
+	padding-left: 40px;
+	height: 38px;
+	line-height: 38px;
+	margin-top: 10px;
+	margin-right: 12px;
+	background: url('../img/footer/Icon_Loading.gif');
+	background-repeat: no-repeat;
+}
+#footer .delimiter{
+	float: right;
+	margin: 0 9px 0 10px;
+	margin-top: 18px;
+	display: block;
+	border-left: 1px solid;
+	height: 24px;
+}
+#footer .help_close_btn,
+#basket_continue_btn{
+	visibility: hidden;
+	position: absolute;
+	left: 50%;
+	cursor: pointer;
+	line-height: 20px;
+	height: 40px;
+	margin-top: 0px;
+}
+#footer .help_close_btn{
+	padding-right: 40px;
+	background-image: url('../img/footer/Icon_CloseGlo_Mobile.gif');
+	background-position: right 100%;
+	margin-left: -55px;
+}
+#basket_continue_btn{
+	padding-left: 40px;
+	background-image: url('../img/footer/Icon_NextGlo_Mobile.gif');
+	background-position: left 100%;
+	margin-left: -74px;
+}

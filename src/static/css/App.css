@@ -1,0 +1,595 @@
+/* Overwrite styles for prototype while building */
+#help_btn, #menu_btn, #close_btn {
+	display: none !important;
+}
+
+#main_rel {
+	padding: 20px;
+	font-size: 19px;
+	color: #777777;;
+}
+
+.domain-container {
+	display: block;
+	max-width: 1000px;
+}
+
+.domain-loading-component {
+	display: inline-block;
+
+}
+
+.domain-container .glyphicon {
+	display:inline-block;
+	height: 25px;
+	width: 25px;
+	font-size: 25px;
+	top:5px;
+	margin-right:5px;
+}
+
+.domain-container span {
+	padding-left: 20px;
+}
+
+.domain-loading-complete .glyphicon {
+	color: #a4c27f;
+}
+
+
+.domain-info-container label {
+	color: #333333;
+	margin-right: 5px;
+}
+
+/* Note colour pallete:
+- gray: #a49797
+- red: ?
+- green: ?
+*/
+.traffic-icon {
+	height: 150px;
+	width: 150px;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.traffic-stop {
+	background-image: url('../img/traffic_stop.svg');
+}
+
+.traffic-stop-anim {
+	background-image: url('../img/traffic_stop_anim.svg');
+}
+
+.traffic-go-anim {
+	background-image: url('../img/traffic_go_anim.svg');
+}
+
+.traffic-go {
+	background-image: url('../img/traffic_stop.svg');
+}
+
+
+.user-terms-container {
+	margin-top: 50px;
+}
+
+
+
+/* Styles from proto used here as component styles */
+.checkbox-component {
+	position:relative;
+}
+
+.checkbox-component input[type="checkbox"] {
+	display:none;
+}
+
+.checkbox-component input[type="checkbox"] + span {
+	background: url('../img/main/Icon_Checkbox.gif') no-repeat;
+	display: inline-block;
+	padding-left: 40px;
+	min-height: 31px;
+	line-height: 32px;
+}
+
+.checkbox-component input[type="checkbox"].checked + span {
+  background-image: url('../img/main/Icon_CheckboxSel.gif');
+}
+
+.checkbox-title {
+  font-size: 17px;
+  font-weight: normal;
+  color: #585858;
+  cursor: pointer;
+}
+
+.error-block {
+	margin: 5px 0 0 0;
+  padding-left: 24px;
+  color: #d80000;
+  font-size: 16px;
+  line-height: 22px;
+  /* background: url("../static/Icon_ErrorArrow.png") 0px 0px no-repeat; */
+	position: relative;
+	top: -2px;
+}
+
+/*
+.checkbox-component li {
+	padding-left: 40px;
+	line-height: 33px;
+}
+
+.checkbox-component .checkbox {
+	width: 31px;
+	height: 32px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 999;
+	cursor: pointer;
+	background-repeat: no-repeat;
+}
+
+.checkbox-component .checkbox{
+	background-image: url('../img/main/Icon_Checkbox.gif');
+}
+.checkbox-component .selected .checkbox{
+	background-image: url('../img/main/Icon_CheckboxSel.gif');
+}
+*/
+
+
+/** Styles from original prototype */
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	font-size: 14px;
+}
+a{
+	text-decoration: none;
+}
+li{
+	list-style: none;
+}
+button,
+img{
+	border: 0;
+	outline: 0;
+	background-color: transparent;
+}
+html, body{
+	width: 100%;
+	height: 100%;
+	min-width: 320px;
+}
+.max_width{
+	max-width: 1440px;		
+	height: 100%;
+	margin-left: auto; 
+	margin-right: auto;	
+}
+.float_clear{
+	clear: both;
+	display: block;
+}
+/* ROOT */
+/* #root *{ font-family: 'HelveticaNeue-Light', sans-serif; } */
+#root{
+	/* Add this to (#root(, and not (#root *) */
+	font-family: 'HelveticaNeue-Light', sans-serif;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+	z-index: 0;
+}
+
+/* DOCUMENT BUILDER */
+.document_builder{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: -1;
+	visibility: hidden;
+}
+.document_builder.open{
+	z-index: 9999;
+	visibility: visible;
+}
+
+/* MAIN */
+#main{
+	width: 100%;
+	position: absolute;
+	top: 62px;	
+	bottom: 59px;
+}
+#main .max_width{
+	position: relative;
+}
+#main #main_abs{
+	position: absolute;
+	top: 10px;	
+	bottom: 10px;
+	width: 100%;
+}
+#main #main_rel{
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+#loading_bg{
+	display: none;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 9999;
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=20)';
+	filter: alpha(opacity=20);
+	-moz-opacity: 0.2;
+	-khtml-opacity: 0.2;
+	opacity: 0.2;
+}
+.loading_show #loading_bg{
+	display: block;
+}
+.loading_show #footer .controls{
+	display: none;
+}
+.loading_show #loading{
+	visibility: visible !important;
+}
+/* sidebar */
+#sidebar{
+	position: relative;
+	width: 360px;
+	height: 100%;
+	float: left;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+	border-right: 1px solid;
+}
+#help{
+	display: none;
+}
+#basket,
+#help{
+	position: absolute;
+	top: 0px;
+	bottom: 10px;
+	left: 15px;
+	right: 15px;
+}
+.help_open #help_btn{
+	background-image: url('../img/header/Icon_HelpSel.gif');
+}
+.help_open #help,
+.basket_open #basket{
+	display: block;
+}
+.help_open #basket,
+.basket_open #help{
+	display: none;
+}
+/* basket */
+#basket .empty{
+	text-align: center;
+}
+#basket .empty p{
+	font-size: 200%;
+	margin-top: 20px;
+}
+#basket_list{
+	text-align: left;
+}
+#basket_list .info{
+	padding-left: 80px;
+	min-height: 70px;
+	margin-top: 10px;
+	background: url('../img/main/Icon_Basket.gif') no-repeat;
+}
+#basket_list .info p{
+	font-size: 145%;
+}
+#basket_list .paths_count{
+	padding-top: 15px;
+}
+#basket_list ul{
+	margin-top: 10px;
+}
+.path_basket{	
+	border: 1px solid;
+	overflow: hidden;
+	margin-bottom: 10px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+.path_basket h4{
+	position: relative;
+	font-weight: 100;
+	font-size: 125%;
+}
+.path_basket h4 span{
+	display: block;
+	padding: 5px 25px;
+	background: url('../img/main/Basket_Marker.png') no-repeat 2px center;
+	min-height: 20px;
+}
+.path_basket div{
+	padding: 10px 10px;
+	position: relative;	
+}
+
+.basket_show #basket_list{
+	display: block;
+}
+.path_basket p{
+	position: relative;
+	z-index: 1;
+	font-size: 110%;
+}
+.path_basket .progress_bg{
+	display: block;
+	width: 0%;
+	height: 100%;	
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 0;
+}
+.path_basket.completed .progress_bg{
+	width: 100%;
+}
+.path_basket h4 i{
+	width: 21px;
+	height: 21px;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	z-index: 1;
+	background-repeat: no-repeat;
+	background-image: url('../img/main/Basket_X.png');
+}
+.path_basket.completed h4 i{
+	top: 2px;
+	background-image: url('../img/main/Basket_Check.png');
+}
+#preview_btn{
+	float: right;
+	padding-left: 35px;
+	margin-top: 10px;
+	min-height: 41px;
+	cursor: pointer;
+	font-size: 130%;
+	background: url('../img/main/Icon_Report.gif') no-repeat;
+}
+#basket .float_clear{
+	padding-bottom: 15px;
+}
+#contents .path_basket{
+	display: none;
+	margin: 1px;
+}
+/* help */
+#help  h3{
+	font-size: 150%;
+	font-weight: 100;
+	padding: 5px 0;
+	margin-top: 10px;
+}
+#help .help_close_btn{
+	cursor: pointer;
+	float: right;
+	font-size: 100%;
+}
+#help ul{
+	margin-top: 10px;	
+}
+#help li{
+	padding-left: 40px;
+	margin-bottom: 20px;
+	background-repeat: no-repeat;
+	font-size: 120%;
+}
+#help li.help_article,
+#help li.help_faq,
+#help li.help_faq,
+#help li.help_tip{
+	background-position: 0 3px;
+}
+#help li.help_article{
+	background-image: url('../img/main/Icon_HelpArticle.gif');
+}
+#help li.help_article p{
+	margin-top: 10px;
+}
+#help li.help_faq{
+	background-image: url('../img/main/Icon_HelpFAQ.gif');
+}
+#help li.help_faq p{
+	margin-bottom: 10px;
+	font-style: italic;
+}
+#help li.help_tip{
+	background-image: url('../img/main/Icon_HelpTip.gif');
+}
+#help li.help_url{
+	background-image: url('../img/main/Icon_HelpURL.gif');
+}
+#help li.help_url a{
+	display: block;
+	margin-bottom: 10px;
+}
+/* question contents */
+#contents{
+	height: 100%;	
+	position: relative;
+	overflow-x: hidden;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+}
+#contents .content{
+	position: relative;
+	height: 100%;
+}
+#contents .content_abs{
+	position: absolute;
+	top: 0px;
+	left: 0%;
+	width: 100%;
+	height: 100%;
+}
+#contents .item{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+}
+#contents .item2{
+	left: 100%;
+}
+#contents .select_paths h2{
+	font-size: 180%;
+}
+#contents .select_paths h2 span{
+	display: block;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 40px;
+	margin-bottom: 15px;
+	font-weight: normal;
+	background: url('../img/main/Icon_MultiSubheaderMarker.gif') no-repeat 10px center;
+	background-size: auto 70%;
+}
+#contents .item .question_text{
+	font-size: 150%;
+}
+#contents .item .paths_count{
+	margin-top: 20px;
+	font-size: 130%;
+}
+#contents .select_paths .question_text{
+	margin-top: 10px;
+}
+#contents .item .question_text{
+	margin-top: 20px;
+}
+#contents .item .question_extra_text{
+	margin-top: 10px;
+	font-style: italic;
+	font-size: 110%;	
+}
+#contents .item ul{
+	margin-top: 20px;
+}
+#contents .item ul li{
+	padding-left: 40px;	
+	position: relative;
+	margin-bottom: 20px;
+	padding-top: 5px;
+	font-size: 130%;
+}
+#contents .item ul li .extra_text{
+	font-style: italic;
+	font-size: 90%;	
+	margin-top: 5px;
+}
+#contents .item .checkbox,
+#contents .item .radio{
+	width: 31px;
+	height: 32px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 999;
+	cursor: pointer;
+	background-repeat: no-repeat;
+}
+#contents .item .checkbox{
+	background-image: url('../img/main/Icon_Checkbox.gif');
+}
+#contents .item .radio{
+	background-image: url('../img/main/Icon_Radiobutton.gif');
+}
+#contents .item .selected .checkbox{
+	background-image: url('../img/main/Icon_CheckboxSel.gif');
+}
+#contents .item .selected .radio{
+	background-image: url('../img/main/Icon_Radiobutton_Sel.gif');
+}
+#contents .item h2{
+	margin-left: 25px;
+	margin-right: 25px;
+}
+#contents .item p,
+#contents .item ul{
+	margin-left: 35px;
+	margin-right: 35px;
+}
+#contents .item .extra_text{
+	margin-left: 0px;
+}
+#contents #preview_report h2{
+	text-align: center;
+	font-size: 200%;
+	margin-bottom: 15px;
+	margin-top: 15px;
+}
+#contents #preview_report ul{
+	margin: 0 35px;
+}
+#contents #preview_report ul li{
+	padding: 0;
+}
+#contents #preview_report h3{
+	font-size: 110%;
+	font-weight: 100;
+}
+#contents #preview_report li p{
+	margin-top: 10px;
+}
+#contents #preview_report fieldset{
+	padding: 20px;
+	border: 1px solid;
+	margin-bottom: 30px;
+}
+#contents #preview_report legend{
+	margin-left: 20px;
+	padding: 0 20px;
+	font-size: 120%;
+	font-weight: bold;
+}
+
+#loading {
+	visibility: visible;
+}
+
+/** End styles from original prototype */
+
+.basket_empty_img {
+	display: inline-block;
+	background: url('../img/main/Marker.gif') no-repeat;
+	height: 300px;
+	width: 212px;
+}
+
+
+
+/* TODO: Probably remove these ones below as well */
+.Question-answers {
+  text-align: left;
+}
+
+.Question-answers label {
+  display: block;
+}
