@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, Link } from 'react-router-dom';
 import { store } from './store'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
@@ -61,10 +61,14 @@ class AccessCodeApp extends Component {
                       }) }
                     />
                   <Route path='/start' component={ withRedirects(DomainContainer)} />
-                  { /* TODO: Add a path here to redirect to the default page? */ }
-
+                  <Route path='/launch.html' render={ () => {
+                      return (
+                        <Link id="launch_btn" to={`/start?type=new&domain=TEST`}>Start TEST</Link>
+                      )
+                    } }
+                    />
                   <Route>
-                    <Redirect to='/start?type=new&domain=SampleDomain' />
+                    <Redirect to='/launch.html' />
                   </Route>
                 </Switch>
               </div>

@@ -118,30 +118,18 @@
 	top: -2px;
 }
 
-/*
-.checkbox-component li {
-	padding-left: 40px;
-	line-height: 33px;
+/* Override for launch page*/
+#launch_btn {
+	padding: 10px 30px 10px 30px;
+	border-radius: 4px;
+	text-decoration: none;
+	background-color: #337ab7;
+	color: #fff;
 }
 
-.checkbox-component .checkbox {
-	width: 31px;
-	height: 32px;
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	z-index: 999;
-	cursor: pointer;
-	background-repeat: no-repeat;
+#launch_btn:visited { 
+	color: #fff;
 }
-
-.checkbox-component .checkbox{
-	background-image: url('../img/main/Icon_Checkbox.gif');
-}
-.checkbox-component .selected .checkbox{
-	background-image: url('../img/main/Icon_CheckboxSel.gif');
-}
-*/
 
 
 /** Styles from original prototype */
