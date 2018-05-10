@@ -15,7 +15,7 @@ import { asPage, withRedirects, withPageLoad } from './pages/ReduxPage'
 
 import Header from './components/header/Header'
 import Footer from './components/footer/Footer'
-import DomainContainer from './containers/DomainContainer'
+import StartContainer from './containers/StartContainer'
 import ExplorationInitial from './components/exploration/ExplorationInitial'
 import ExplorationComplete from './components/exploration/ExplorationComplete'
 
@@ -27,15 +27,14 @@ import {
 } from './actions/actionTypes'
 
 
-const mapStateToProps = (globalState, ownProps) => {
-  console.log(globalState, ownProps)
+const mapStateToProps = state => {
   return {
-    appLoaded: globalState.common.appLoaded    
+    appLoaded: state.common.appLoaded
   }
 };
+
 class AccessCodeApp extends Component {
   render() {
-    console.log(this)
     // TODO: How to detect no domain start here??
     if (!this.props.appLoaded) {
       return null
@@ -50,23 +49,35 @@ class AccessCodeApp extends Component {
             <div id="main_abs">
               <div id="main_rel">
                 <Switch>
-                  <Route exact path="/exploration/:id/terms" component={
+                  <Route exact path="/exploration/terms" component={
                       asPage(ExplorationInitial, {
                           page_load_action: EXPLORATION_PAGE_TERMS_SELECTION
                       }) }
                     />
-                  <Route exact path="/exploration/:id/end" component={
+                  <Route exact path="/exploration/end" component={
                       asPage(ExplorationComplete, {
                         page_load_action: EXPLORATION_PAGE_TERMS_COMPLETE
                       }) }
                     />
-                  <Route path='/start' component={ withRedirects(DomainContainer)} />
+                  <Route path='/start' component={ withRedirects(StartContainer)} />
                   <Route path='/launch.html' render={ () => {
                       return (
-                        <Link id="launch_btn" to={`/start?type=new&domain=TEST`}>Start TEST</Link>
+                        <Link id="launch_btn" to={`/start?type=new&domain=1000`}>Start TEST</Link>
                       )
                     } }
                     />
+                  <Route path='/error.html' render={ () => {
+                      return (
+                        <div>
+                          <p>There was an error with the request.</p>
+                          <p>Please check the logs, or try again:</p>
+                          <p style={ {marginTop: '15px'} }>
+                            <Link id="launch_btn" to={`/start?type=new&domain=1000`}>Start TEST</Link>
+                          </p>
+                        </div>
+                      )
+                    } }
+                  />
                   <Route>
                     <Redirect to='/launch.html' />
                   </Route>

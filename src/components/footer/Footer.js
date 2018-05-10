@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { submit } from 'redux-form'
+//import { connect } from 'react-redux'
+//import { submit } from 'redux-form'
 
 const mapStateToProps = (globalState, ownProps) => {
   return {
@@ -13,7 +13,7 @@ const mapStateToProps = (globalState, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  submitCurrentForm: (formName) => dispatch(submit(formName))
+  //submitCurrentForm: (formName) => dispatch(submit(formName))
 });
 
 const Footer = (props) => {
@@ -56,4 +56,4 @@ const Footer = (props) => {
 	)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Footer)
+export default Footer;//connect(mapStateToProps, mapDispatchToProps)(Footer)

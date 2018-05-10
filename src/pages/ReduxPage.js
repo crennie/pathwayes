@@ -7,27 +7,38 @@ import {
   REDIRECT
 } from '../actions/actionTypes'
 
-const DEFAULT_DOMAIN_ID = 'TEST'
+const DEFAULT_DOMAIN_ID = 1000
 export function withValidExplorationCheck(WrappedComponent) {
-  const mapStateToProps = state => {
-    return {
-      user_code: state.domain.user_code,
-      domain_id: state.domain.domain_id || DEFAULT_DOMAIN_ID
-    }
-  };
+  const mapStateToProps = state => ({
+    accessCode: state.exploration.accessCode,
+    token: state.common.token,
+    domain_id: state.exploration.domain_id || DEFAULT_DOMAIN_ID
+  })
+
+  // TODO: This should also be an Auth check
   class ComponentWithValidExplorationCheck extends Component {
     _isInvalidRoute() {
-      return !this.props.match.params.id || this.props.user_code !== this.props.match.params.id
+      return false
+      // TODO: What should now go in URL if not accessCode?
+      //return !this.props.match.params.id || this.props.domain_id !== this.props.match.params.id
+    };
+    _isAuthorized() {
+      return this.props.token && this.props.accessCode
     };
     render() {
       console.log(this)
       if (this._isInvalidRoute()) {
         return (
           <div>
-            <p>Invalid or expired URL.</p>
+            <p>Invalid URL.</p>
             <p><Link to={`/start?type=new&domain=${this.props.domain_id}`}>Start a new exploration in domain "{this.props.domain_id}" here</Link></p>
           </div>
         )
+      } else if (!this._isAuthorized()) {
+        return (<div>
+          <p>URL has expired</p>
+          <p><Link to={`/start?type=new&domain=${this.props.domain_id}`}>Start a new exploration in domain "{this.props.domain_id}" here</Link></p>
+        </div>)
       } else {
         return <WrappedComponent {...this.props}></WrappedComponent>
       }

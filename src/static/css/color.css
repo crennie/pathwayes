@@ -1,3 +1,22 @@
+
+/* New styles */
+/* LOGIN */
+#login-container,
+#logout-container {
+	background-color: #3c6784;
+}
+
+#login-panel {
+	background-color: #fff;
+}
+
+#login-new-btn {
+	background-color: #3c6784;
+}
+
+
+
+/* Original prototype styles */
 /* CONTAINER */
 #container{
 	background-color: #F3F3F3;

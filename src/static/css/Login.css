@@ -1,0 +1,79 @@
+#login-container {
+  height: 100%;
+  width: 100%;
+  position:absolute;
+}
+
+.login-panel-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 420px;
+  top: 25%;
+  position: relative;
+}
+
+#login-panel-logo {
+  margin-bottom: 15px;
+  background-position-x: center;
+	height: 45px;
+  background-image: url('../img/header/Header.gif');
+  background-repeat: no-repeat;
+}
+
+#login-panel {
+  padding: 5px 10px 5px 10px;
+  font-size: 16px;
+  height: 270px;
+  border: 1px solid black;
+  background-image: url('../img/Icon_WalkingMan_Temp.png');
+  background-repeat: no-repeat;
+}
+
+.login-panel-content {
+  width: 200px;
+  margin-top: 60px;
+  margin-left: 168px;
+}
+
+#login-new-btn {
+  width: 100%;
+  height: 30px;
+  border-radius: 0px;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.login-instructions {
+  font-size: 18px;
+  color: #cecece;
+  padding-left: 2px;
+}
+
+.login-label {
+  color: #777777;
+}
+
+#login-input {
+  height: 25px;
+  font-size: 16px;
+  border-radius: 1px;
+  float: left;
+  margin-right: 10px;
+  width: 156px;
+}
+
+#login-btn {
+  background-image: url('../img/footer/Icon_Next_Mobile.gif');
+  background-repeat: no-repeat;
+  background-size: 28px;
+  height: 28px;
+  width: 28px;
+  float: left;
+  cursor: pointer;
+}
+
+#login-panel .error-block {
+  float: left;
+}

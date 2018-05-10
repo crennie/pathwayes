@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux'
-import domain from './domain'
 import common from './common'
 import exploration from './exploration'
 
@@ -16,7 +15,6 @@ const INITIAL_STATE = {
 
 const reducer = combineReducers({
   common,
-  domain,
   exploration,
   form: formReducer,
 

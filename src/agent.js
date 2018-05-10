@@ -1,22 +1,14 @@
-// TODO: Should API gets be done in an agent file??
-export default {
-  fakeLoad: (ms_delay) => {
-    return new Promise( (resolve, reject) => {
-      setTimeout(resolve, ms_delay);
-    })
-  }
-}
-
-/*
 import superagentPromise from 'superagent-promise';
 import _superagent from 'superagent';
 
 const superagent = superagentPromise(_superagent, global.Promise);
 
-const API_ROOT = 'https://conduit.productionready.io/api';
+const API_ROOT = 'http://24.69.177.152:8080/ext/pw-dev/graphql';
 
 const encode = encodeURIComponent;
-const responseBody = res => res.body;
+
+//const responseBody = res => res.body;
+const responseBody = res => res
 
 let token = null;
 const tokenPlugin = req => {
@@ -25,7 +17,24 @@ const tokenPlugin = req => {
   }
 }
 
+
+const _gql_query = query_string =>
+  superagent.post(`${API_ROOT}`, { query: query_string })
+      //.type('text/plain')
+      .type('application/json')
+      .use(tokenPlugin)
+      .then(responseBody)
 const requests = {
+  /* TODO: Look for library, or think of better way to make general GQL query/mutation
+    - specifically, need to convert JS object to GQL in generic way
+    -  Maybe look at using "variables" request field, instead of putting all create data in "query"
+  */
+  mutation: query_string =>
+    _gql_query(query_string),
+  query: query_string =>
+    _gql_query(query_string),
+  gql: query_string => 
+    _gql_query(query_string),
   del: url =>
     superagent.del(`${API_ROOT}${url}`).use(tokenPlugin).then(responseBody),
   get: url =>
@@ -37,72 +46,49 @@ const requests = {
 };
 
 const Auth = {
-  current: () =>
-    requests.get('/user'),
-  login: (email, password) =>
-    requests.post('/users/login', { user: { email, password } }),
-  register: (username, email, password) =>
-    requests.post('/users', { user: { username, email, password } }),
-  save: user =>
-    requests.put('/user', { user })
-};
+  login: ({ accessCode }) =>
+    requests.gql(`mutation {
+        accessCodeLogin(accessCode:"${accessCode}")
+      }`)
+}
 
-const Tags = {
-  getAll: () => requests.get('/tags')
-};
 
-const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`;
-const omitSlug = article => Object.assign({}, article, { slug: undefined })
-const Articles = {
-  all: page =>
-    requests.get(`/articles?${limit(10, page)}`),
-  byAuthor: (author, page) =>
-    requests.get(`/articles?author=${encode(author)}&${limit(5, page)}`),
-  byTag: (tag, page) =>
-    requests.get(`/articles?tag=${encode(tag)}&${limit(10, page)}`),
-  del: slug =>
-    requests.del(`/articles/${slug}`),
-  favorite: slug =>
-    requests.post(`/articles/${slug}/favorite`),
-  favoritedBy: (author, page) =>
-    requests.get(`/articles?favorited=${encode(author)}&${limit(5, page)}`),
-  feed: () =>
-    requests.get('/articles/feed?limit=10&offset=0'),
-  get: slug =>
-    requests.get(`/articles/${slug}`),
-  unfavorite: slug =>
-    requests.del(`/articles/${slug}/favorite`),
-  update: article =>
-    requests.put(`/articles/${article.slug}`, { article: omitSlug(article) }),
-  create: article =>
-    requests.post('/articles', { article })
-};
-
-const Comments = {
-  create: (slug, comment) =>
-    requests.post(`/articles/${slug}/comments`, { comment }),
-  delete: (slug, commentId) =>
-    requests.del(`/articles/${slug}/comments/${commentId}`),
-  forArticle: slug =>
-    requests.get(`/articles/${slug}/comments`)
-};
-
-const Profile = {
-  follow: username =>
-    requests.post(`/profiles/${username}/follow`),
-  get: username =>
-    requests.get(`/profiles/${username}`),
-  unfollow: username =>
-    requests.del(`/profiles/${username}/follow`)
-};
+const Exploration = {
+  create: ({ domainId, organizationId }) => {
+    const WORKAROUND_DATE = '2018-12-12'
+    return requests.gql(`mutation {
+      createUserExploration(userExploration:{
+        domainId:${domainId},
+        organizationId:${organizationId},
+        explorationCompletionDate: "${WORKAROUND_DATE}"
+      }) {
+        userExplorationId
+        domainId
+        acceptedTerms
+        accessCode
+        modifiedDate
+      }
+    }`)
+  },
+  update: ({ userExplorationId, form_data }) =>
+    requests.gql(`mutation {
+      updateUserExploration(userExploration:${ JSON.stringify(form_data) })
+      {
+        acceptedTerms
+        accessCode
+      }
+    }`)
+}
 
 export default {
-  Articles,
+  fakeLoad: (ms_delay) => {
+    return new Promise( (resolve, reject) => {
+      setTimeout(resolve, ms_delay);
+    })
+  },
   Auth,
-  Comments,
-  Profile,
-  Tags,
-  setToken: _token => { token = _token; }
-};
+  Exploration,
+  setToken: _token => { token = _token; },
 
-*/
+  API_ROOT
+}

@@ -1,21 +1,35 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react'
 
-import DomainComponent from '../domain/Domain'
-import ExplorationTermsForm from '../../forms/ExplorationTerms'
+import gql from "graphql-tag"
+import { Mutation, withApollo } from "react-apollo"
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    termsAccepted: state.exploration.terms_accepted,
-    domainData: state.domain
+import ExplorationGeneralComponent from './ExplorationGeneral'
+import ExplorationTouComponent from './ExplorationTou'
+
+class ExplorationInitialComponent extends Component {
+  // TODO: Extract this logic into app root, or maybe as HOC ability to be applied on each page?
+  componentWillMount() {
+    // Save any id in the url
+    if (this.props.match.params.id) {
+      // TODO: Should we check and not write if there already is one here?
+      const currentExplorationId = this.props.match.params.id
+      this.props.client.writeQuery({ query: gql`query { currentExplorationId }`, data: { currentExplorationId } })
+    }
+
+    // TODO: Also here we can
+  };
+  render() {
+    return (
+      <div>
+        <ExplorationGeneralComponent {...this.props}></ExplorationGeneralComponent>
+        { true ? <ExplorationTouComponent {...this.props}></ExplorationTouComponent> : null}
+      </div>
+    )
   }
-};
-
-const ExplorationInitial = ({ termsAccepted, domainData }) => (
-  <div>
-    <DomainComponent termsAccepted={termsAccepted} domainData={{...domainData}}></DomainComponent>
-    <ExplorationTermsForm></ExplorationTermsForm>
-  </div>
-)
-
-export default connect(mapStateToProps, null)(ExplorationInitial)
+}
+/*
+ExplorationInitial.propTypes = {
+  domainComponent: domainComponentType.isRequired
+}
+*/
+export default withApollo(ExplorationInitialComponent)

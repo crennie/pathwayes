@@ -7,10 +7,12 @@ import {
   FORM_COMMIT
 } from './actionTypes'
 
-export function submitApiForm(form_data) {
+export function submitApiForm(exploration_id, form_data) {
+  const userExplorationId = exploration_id;
   return {
     type: FORM_SUBMIT_API,
-    payload: agent.fakeLoad(3000)
+    // TODO: Add user exploration id from somewhere
+    payload: agent.Exploration.update({ userExplorationId, form_data })
   }
 }
 
@@ -37,9 +39,9 @@ export function commitFormToStore(exploration_data) {
 }
 
 // TODO: Any submitForm data?
-export function submitApiData(form_data) {
+export function submitApiData(exploration_id, form_data) {
   return (dispatch) => {
-    return dispatch(submitApiForm(form_data))
+    return dispatch(submitApiForm(exploration_id, form_data))
       .then(result => {
         result = {
           payload: {
@@ -49,7 +51,7 @@ export function submitApiData(form_data) {
             }
           }
         }
-
+        
         console.log(result)
         if (result.payload.response && result.payload.response.status !== 200) {
           dispatch(submitApiFormError(result.payload.response.data));

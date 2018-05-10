@@ -1,0 +1,43 @@
+#logout-container {
+  height: 100%;
+  width: 100%;
+  position:absolute;
+}
+
+.logout-panel-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 320px;
+  top: 25%;
+  position: relative;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+}
+
+#logout-panel-logo {
+  margin-bottom: 15px;
+  background-position-x: center;
+	height: 45px;
+  background-image: url('../img/header/Header.gif');
+  background-repeat: no-repeat;
+
+  border-bottom: 1px solid #fff;
+  width: 260px;
+  padding-bottom: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#logout-login-btn {
+  font-size: 18px;
+  margin-top: 60px;
+  height: 40px;
+  border: 1px solid #fff;
+  background-color:transparent;
+  margin-left: auto;
+  margin-right: auto;
+  width: 150px;
+  color: #fff;
+  cursor: pointer;
+}

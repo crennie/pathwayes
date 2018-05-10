@@ -2,17 +2,19 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import DomainComponent from '../domain/Domain'
+import { domainComponentType } from '../../types';
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    termsAccepted: state.exploration.terms_accepted,
-    domainData: state.domain
-  }
-};
-const ExplorationComplete = ({ termsAccepted, domainData }) => {
-  console.log(this, termsAccepted, domainData)
-  return <DomainComponent termsAccepted={termsAccepted} domainData={{...domainData}}></DomainComponent>
+const mapStateToProps = state => ({
+  domainComponent: { ...state.exploration }
+});
+const ExplorationComplete = ({ domainComponent }) => (
+  <div>
+    <DomainComponent domainComponent={domainComponent}></DomainComponent>
+    <div>Exploration Completed</div>
+  </div>
+)
+ExplorationComplete.propTypes = {
+  domainComponent: domainComponentType.isRequired
 }
-
 
 export default connect(mapStateToProps, null)(ExplorationComplete)

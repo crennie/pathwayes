@@ -17,7 +17,7 @@ const ExplorationTermsForm = (props) => {
   return (
     <form onSubmit={handleSubmit} className="user-terms-container" no-validate="true">
       <Field
-          name="terms_accepted"
+          name="acceptedTerms"
           label="I accept the terms and conditions"
           component={Checkbox}
           onChange={clearSubmitErrors}
@@ -29,19 +29,23 @@ const ExplorationTermsForm = (props) => {
 const ReduxedExplorationTermsForm = reduxForm({
   form: EXPLORATION_PAGE_TERMS_SELECTION,
   onSubmit: (values) => {
-    if (!values.terms_accepted) {
-      throw new SubmissionError({ terms_accepted: 'Select to continue' })
+    if (!values.acceptedTerms) {
+      throw new SubmissionError({ acceptedTerms: 'Select to continue' })
     }
     return values
   },
-  onSubmitSuccess: (result, dispatch) => {
+  /*
+  TODO: Pass this in as prop
+  onSubmitSuccess: (result, dispatch, props) => {
     console.log("ON SUBMIT SUCCESS?", result, dispatch, this)
-    dispatch(submitApiData(result))
+    dispatch(submitApiData(props.userExplorationId, result))
   }
+  */
 })(ExplorationTermsForm)
 
-const mapStateToProps = (state) => ({
-  initialValues: state.exploration
+const mapStateToProps = state => ({
+  initialValues: state.exploration,
+  userExplorationId: state.exploration.userExplorationId
 })
 
 export default connect(mapStateToProps, null)(ReduxedExplorationTermsForm)
