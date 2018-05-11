@@ -1,9 +1,10 @@
 import ApolloClient from 'apollo-boost';
 import { defaultDataIdFromObject } from 'apollo-cache-inmemory'
-import agent from './agent'
+
+const API_ROOT = 'http://24.69.177.152:8080/ext/pw-dev/graphql'
 
 const client = new ApolloClient({
-  uri: agent.API_ROOT,
+  uri: API_ROOT,
   fetchOptions: {
     // TODO: Not sure we need this?  Is this to do with including auth cookie?
     credentials: 'include'
@@ -31,7 +32,10 @@ const client = new ApolloClient({
     defaults: {
       // TODO: isConnected is from sample code, not sure of its purpose
       isConnected: true,
-      currentExplorationId: null
+      currentExplorationId: null,
+
+      // TODO: try having a variable here that says when we should run page mutations?
+      pageSubmit: false
     },
     resolvers: {
       // TODO: How to fit this in? It doesn't seem to run

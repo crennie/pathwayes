@@ -4,28 +4,7 @@ import React, { Component } from 'react'
 import gql from "graphql-tag"
 import { withApollo, graphql, compose, Mutation } from 'react-apollo'
 
-import { FETCH_USER_EXPLORATION } from '../../queries'
-
-const createExplorationMutation = gql`
-  mutation ($domainId: Int!, $date: String!) {
-    createUserExploration(userExploration: {
-      domainId: $domainId,
-      explorationCompletionDate: $date
-    }) {
-      userExplorationId
-      domainId
-      acceptedTerms
-      accessCode
-      createdDate
-      modifiedDate
-    }
-  }`
-
-const accessCodeLoginMutation = gql`
-  mutation ($accessCode: String) {
-    accessCodeLogin(accessCode: $accessCode)
-  }`
-
+import { FETCH_USER_EXPLORATION, CREATE_USER_EXPLORATION, ACCESS_CODE_LOGIN } from '../../queries'
 
 const userExplorationQuery = gql`
   query {
@@ -33,13 +12,11 @@ const userExplorationQuery = gql`
   }
 `
 
-
 class LoginComponent extends Component {
   state = {
     validated_domain: null,
 
-    loading_create: false,
-    loading_login: false,
+    loading_create: false
 
     // TODO: Do a minimum loading time animation??
   }
@@ -47,32 +24,30 @@ class LoginComponent extends Component {
     console.log(this.props)
     const domainId = this.props.match.params.domainId
     console.log(domainId)
-    this.setState({ validated_domain: !!domainId })
+    this.setState({ loading_create: false, validated_domain: !!domainId })
   };
 
   onStartNew() {
     this.setState({ loading_create: true })
-    this.props.createExploration({ variables: { domainId: this.props.match.params.domainId, date: '2019-01-01' }}).then( result => {
-      console.log(result)
-      const { accessCode } = result.data.createUserExploration
-      this.setState({ loading_create: false, loading_login: true })
-      this.props.login({ variables: { accessCode } }).then( result => {
-        console.log(localStorage.getItem('token'))
 
-        console.log(this)
-
-        console.log(this.props.client)
-
-        const { currentExplorationId } = this.props.client.readQuery({ query: gql`query { currentExplorationId }` })
-        console.log(currentExplorationId)
-        
-        if (!currentExplorationId) {
-          console.log("[Error] No exploration ID found, this shouldn't happen in Start")
-        } else {
-          this.props.history.push(`/exploration/${currentExplorationId}/instructions`)
-        }
+    // Add a cheesy loader here =>
+    setTimeout( (() => {
+      this.props.createExploration({ variables: { domainId: this.props.match.params.domainId, date: '2019-01-01' }}).then( result => {
+        const { accessCode } = result.data.createUserExploration
+        this.props.login({ variables: { accessCode } }).then( result => {
+          console.log(localStorage.getItem('token'))
+          
+          // TODO: Do we need this?  Maybe we just use the URL the whole time??
+          const { currentExplorationId } = this.props.client.readQuery({ query: gql`query { currentExplorationId }` })
+          if (!currentExplorationId) {
+            console.log("[Error] No exploration ID found, this shouldn't happen in Start")
+          } else {
+            this.props.history.push(`/exploration/${currentExplorationId}/instructions`)
+          }
+        })
       })
-    })
+
+    }).bind(this), 2000)
   };
 
   handleAccessCodeLoginResponse(result) {
@@ -97,7 +72,6 @@ class LoginComponent extends Component {
     
     if (!this.props.currentExplorationId) {
       console.log("No exploration id, do a lookup here")
-
     }
   }
 
@@ -110,6 +84,64 @@ class LoginComponent extends Component {
       return <div>Error: invalid domain</div>
     }
 
+    const panelRender = this.state.loading_create ? (
+      <div id="login-create-loading"><div id="login-create-loading-icon"></div><p>Starting...</p></div>
+    ) : (
+      <div>
+      <button type="button" id="login-new-btn" className=""
+        onClick={this.onStartNew.bind(this)} >
+        Start New
+      </button>
+      <div className="login-instructions">
+        or enter your access code to continue
+      </div>
+      <Mutation 
+        mutation={ACCESS_CODE_LOGIN}
+        onCompleted={this.handleAccessCodeLoginResponse}
+        >
+        {(login, { data, loading, error, called }) => {
+          console.log(this, data, loading, error, called, login)
+          const handleLogin = (e) => {
+            e.preventDefault()
+            const input_field = document.getElementById('login-input')
+            const accessCode = input_field ? input_field.value : null
+            const accessCodeMatch = /^\w{6}$/
+            let form_error
+            if (accessCode === '') {
+              form_error = 'enter access code'
+            } else if (!accessCode.match(accessCodeMatch)) {
+              form_error = 'invalid access code'
+            }
+            
+            if (form_error) {
+              this.setState({form_error})
+            }
+            if (!form_error) {
+              login({ variables: { accessCode } })
+            }
+          }
+          return (
+            <div>
+              <div>
+                <label className="login-label">Access Code</label>
+              </div>
+              { !called && loading ? (<div>Loading...</div>) : (
+                <div>
+                  <input id="login-input" type="text" />
+                  <button id="login-btn" type="submit" onBlur={() => {
+                    this.setState({form_error: null})
+                  }} onClick={handleLogin}></button>
+                  {error ? <p className="error-block">{error}</p> : null}
+                  {this.state.form_error ? <p className="error-block">{this.state.form_error}</p> : null}
+                </div>
+              ) }
+            </div>
+          )
+        }}
+      </Mutation>
+      </div>
+    )
+
     return (
       <div id="login-container">
         <div className="login-panel-container">
@@ -117,62 +149,7 @@ class LoginComponent extends Component {
           <div id="login-panel">
 
             <div className="login-panel-content">
-              { this.state.loading_create ? <div>Creating...</div> :
-                (<button type="button" id="login-new-btn" className=""
-                    onClick={this.onStartNew.bind(this) } >
-                  Start New
-                </button>)
-              }
-              
-              <div className="login-instructions">
-                or enter your access code to continue
-              </div>
-
-              <Mutation 
-                mutation={accessCodeLoginMutation}
-                onCompleted={this.handleAccessCodeLoginResponse}
-                >
-                {(login, { data, loading, error, called }) => {
-                  console.log(this, data, loading, error, called, login)
-                  const handleLogin = (e) => {
-                    e.preventDefault()
-                    const input_field = document.getElementById('login-input')
-                    const accessCode = input_field ? input_field.value : null
-                    const accessCodeMatch = /^\w{6}$/
-                    let form_error
-                    if (accessCode === '') {
-                      form_error = 'enter access code'
-                    } else if (!accessCode.match(accessCodeMatch)) {
-                      form_error = 'invalid access code'
-                    }
-                    // TODO: Add some handling on access code
-
-                    if (form_error) {
-                      this.setState({form_error})
-                    }
-                    if (!form_error) {
-                      login({ variables: {accessCode: e.currentTarget.value} })
-                    }
-                  }
-                  return (
-                    <div>
-                      <div>
-                        <label className="login-label">Access Code</label>
-                      </div>
-                      { !called && (this.state.loading_login || loading) ? (<div>Loading...</div>) : (
-                        <div>
-                          <input id="login-input" type="text" />
-                          <button id="login-btn" type="submit" onBlur={() => {
-                            this.setState({form_error: null})
-                          }} onClick={handleLogin}></button>
-                          {error ? <p className="error-block">{error}</p> : null}
-                          {this.state.form_error ? <p className="error-block">{this.state.form_error}</p> : null}
-                        </div>
-                      ) }
-                    </div>
-                  )
-                }}
-              </Mutation>
+              {panelRender}
             </div>
 
           </div>
@@ -182,9 +159,8 @@ class LoginComponent extends Component {
   }
 }
 
-// TODO: Extract these local state queries into files??
 export default compose(
-  graphql(createExplorationMutation, {
+  graphql(CREATE_USER_EXPLORATION, {
     name: 'createExploration',
     options: {
       update: (store, { data: { createUserExploration } }) => {
@@ -199,7 +175,7 @@ export default compose(
       }
     }
   }),
-  graphql(accessCodeLoginMutation, {
+  graphql(ACCESS_CODE_LOGIN, {
     name: 'login',
     options: {
       /* TODO: Any way to refresh the currentUserExploration here??

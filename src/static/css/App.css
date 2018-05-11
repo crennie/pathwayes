@@ -1,5 +1,5 @@
 /* Overwrite styles for prototype while building */
-#help_btn, #menu_btn, #close_btn {
+#help_btn, #menu_btn {
 	display: none !important;
 }
 
@@ -75,6 +75,18 @@
 
 .user-terms-container {
 	margin-top: 50px;
+}
+
+
+.error-block {
+	margin: 5px 0 0 0;
+	padding-left: 24px;
+	color: #d80000;
+	font-size: 16px;
+	line-height: 22px;
+	background: url("../img/Icon_ErrorArrow.png") 0px 0px no-repeat;
+	position: relative;
+	top: -2px;
 }
 
 

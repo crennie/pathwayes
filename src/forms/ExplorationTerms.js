@@ -1,16 +1,11 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
 import Checkbox from '../components/checkbox/Checkbox'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 
 import {
   EXPLORATION_PAGE_TERMS_SELECTION
-} from '../actions/actionTypes'
-
-import {
-  submitApiData
-} from '../actions/formActions'
+} from './actionTypes'
 
 const ExplorationTermsForm = (props) => {
   const { error, handleSubmit, clearSubmitErrors } = props
@@ -43,9 +38,6 @@ const ReduxedExplorationTermsForm = reduxForm({
   */
 })(ExplorationTermsForm)
 
-const mapStateToProps = state => ({
-  initialValues: state.exploration,
-  userExplorationId: state.exploration.userExplorationId
-})
+// TODO: Use proptypes and make "initialValues", and "onSubmitSuccess" required
 
-export default connect(mapStateToProps, null)(ReduxedExplorationTermsForm)
+export default ReduxedExplorationTermsForm

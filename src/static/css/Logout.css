@@ -41,3 +41,11 @@
   color: #fff;
   cursor: pointer;
 }
+
+#logout-loading-icon {
+  background: url('../img/logout_loader.svg') 10px -80px;
+  background-repeat: no-repeat;
+  width: 320px;
+  height: 150px;
+  background-size: 300px;
+}

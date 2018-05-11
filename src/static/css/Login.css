@@ -77,3 +77,17 @@
 #login-panel .error-block {
   float: left;
 }
+
+#login-create-loading {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+  color: #3c6784;
+}
+#login-create-loading-icon {
+  background: url('../img/create_load.svg') -10px -60px;
+  background-repeat: no-repeat;
+  width: 180px;
+  height: 80px;
+  background-size: 200px;
+}

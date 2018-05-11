@@ -5,10 +5,8 @@ import promiseMiddleware from 'redux-promise-middleware';
 
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
-//import { promiseMiddleware, localStorageMiddleware } from './middleware';
-
 import promise from 'redux-promise'
-import reducers from './reducers';
+import reducers from './forms/reducers';
 
 import { routerMiddleware } from 'react-router-redux'
 import createHistory from 'history/createBrowserHistory';

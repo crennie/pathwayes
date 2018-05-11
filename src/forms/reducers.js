@@ -1,12 +1,11 @@
+import { combineReducers } from 'redux'
+import { reducer as formReducer } from 'redux-form'
+
 import {
   EXPLORATION_PAGE_TERMS_SELECTION,
   EXPLORATION_PAGE_TERMS_COMPLETE,
-  EXPLORATION_PAGE_UNLOAD,
-  
-  FORM_SUBMIT_API_PENDING,
-  FORM_SUBMIT_API_FULFILLED,
-  FORM_SUBMIT_API_REJECTED
-} from '../actions/actionTypes'
+  EXPLORATION_PAGE_UNLOAD
+} from './actionTypes'
 
 const INITIAL_FORM_STATE = {
   name: null,
@@ -16,7 +15,7 @@ const INITIAL_FORM_STATE = {
   error: null
 };
 
-export default (state = INITIAL_FORM_STATE, action) => {
+const CurrentFormReducer = (state = INITIAL_FORM_STATE, action) => {
   let error;
   switch (action.type) {
     case EXPLORATION_PAGE_TERMS_SELECTION:
@@ -49,29 +48,15 @@ export default (state = INITIAL_FORM_STATE, action) => {
         error: null,
         loading: false
       }
-    
-    case FORM_SUBMIT_API_PENDING:
-      return {
-        ...state,
-        error: null,
-        loading: true
-      }
-    case FORM_SUBMIT_API_FULFILLED:
-      const to_return = action.payload ? {
-          ...state,
-          error: null,
-          user_code: null,
-          loading: false
-        } : { ...state }
-        return to_return
-    case FORM_SUBMIT_API_REJECTED:
-      error = action.payload || {message: action.payload.message} 
-      return {
-        ...state,
-        error: error,
-        loading: false
-      }
+
     default:
       return state;
   }
 }
+
+
+export default combineReducers({
+  form: formReducer,
+  // Keep reference to the "current form" which we can validate from anywhere
+  currentForm: CurrentFormReducer
+})

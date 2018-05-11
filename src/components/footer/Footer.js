@@ -1,24 +1,22 @@
 import React, { Component } from 'react'
-//import { connect } from 'react-redux'
-//import { submit } from 'redux-form'
+import { connect } from 'react-redux'
+import { submit } from 'redux-form'
 
-const mapStateToProps = (globalState, ownProps) => {
-  return {
-		hasBack: globalState.currentForm.has_back,
-		hasNext: globalState.currentForm.has_next,
-		currentFormName: globalState.currentForm.name,
-		nextEnabled: globalState.currentForm,
-		isLoading: globalState.currentForm.loading
-	}
-};
+const mapStateToProps = state => ({
+	hasBack: state.currentForm.has_back,
+	hasNext: state.currentForm.has_next,
+	currentFormName: state.currentForm.name,
+	nextEnabled: state.currentForm,
+	isLoading: state.currentForm.loading
+})
 
 const mapDispatchToProps = dispatch => ({
-  //submitCurrentForm: (formName) => dispatch(submit(formName))
+  submitCurrentForm: (formName) => dispatch(submit(formName))
 });
 
 const Footer = (props) => {
 	const { isLoading, hasBack, hasNext, onNext } = props
-	const boundedOnNext = () => props.submitCurrentForm(props.currentFormName)
+	const boundedOnNext = () => props.submitCurrentForm(props.currentFormName)	
 	return (
 		<footer id="footer">
 			<div className="max_width">
@@ -56,4 +54,4 @@ const Footer = (props) => {
 	)
 }
 
-export default Footer;//connect(mapStateToProps, mapDispatchToProps)(Footer)
+export default connect(mapStateToProps, mapDispatchToProps)(Footer)

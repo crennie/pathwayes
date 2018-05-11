@@ -32,10 +32,10 @@ class LogoutComponent extends Component {
         <div className="logout-panel-container">
           <div id="logout-panel-logo"></div>
           { this.state.loading ?
-              <div id="logout-loading">Logging out...</div>
+              <div id="logout-loading"><div id="logout-loading-icon"></div><p>Logging out...</p></div>
             : (
               <div id="logout-panel-content">
-                <span>You are now logged out</span>
+                <span>You are now logged out.</span>
                 <button type="button" onClick={this.handleStartClick.bind(this)} className="btn" id="logout-login-btn">Log back in</button>
               </div>
             )
