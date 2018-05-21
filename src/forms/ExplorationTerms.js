@@ -8,14 +8,12 @@ import {
 } from './actionTypes'
 
 const ExplorationTermsForm = (props) => {
-  const { error, handleSubmit, clearSubmitErrors } = props
+  //const { error, handleSubmit, clearSubmitErrors } = props
   return (
-    <form onSubmit={handleSubmit} className="user-terms-container" no-validate="true">
-      <Field
+    <form className="user-terms-container" no-validate="true">
+      <Checkbox
           name="acceptedTerms"
-          label="I accept the terms and conditions"
-          component={Checkbox}
-          onChange={clearSubmitErrors}
+          options={[ { label: "I accept the terms and conditions", value: 'accepted' }]}
         />
     </form>
   )
@@ -24,10 +22,10 @@ const ExplorationTermsForm = (props) => {
 const ReduxedExplorationTermsForm = reduxForm({
   form: EXPLORATION_PAGE_TERMS_SELECTION,
   onSubmit: (values) => {
-    if (!values.acceptedTerms) {
+    if (!values.acceptedTerms || !values.acceptedTerms.length || values.acceptedTerms[0] !== 'accepted') {
       throw new SubmissionError({ acceptedTerms: 'Select to continue' })
     }
-    return values
+    return { acceptedTerms: values.acceptedTerms[0] === 'accepted' }
   },
   /*
   TODO: Pass this in as prop

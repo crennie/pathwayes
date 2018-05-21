@@ -1,11 +1,65 @@
 /* Overwrite styles for prototype while building */
+
+.Instructions {
+	font-size: 19x;
+	padding: 20px;
+}
+
+.Question {
+	margin-left: 35px;
+}
+
+.Question .paths_count {
+	color: #A9A5A0;
+	margin-top: 20px;
+	font-size: 130%;
+}
+
+.Question .question_text {
+	font-size: 150%;
+	color: #0A0A0A;
+	margin-top: 20px;
+}
+
+.Question .question_extra_text {
+	margin-top: 10px;
+	font-style: italic;
+	font-size: 110%;
+}
+
+.Answers {
+	margin-top: 20px;
+}
+
+.Answers .extra_text {
+	font-style: italic;
+	font-size: 90%;
+	margin-top: 5px;
+}
+
+
+.radio label, .checkbox-component label {
+	cursor: pointer;
+	font-size: 130%;
+	position: relative;
+	margin-bottom: 20px;
+	padding-top: 5px;
+	color: #777777;
+	user-select: none;
+}
+
+.radio label.selected span, .checkbox-component label.selected span {
+	color: #0A0A0A;
+}
+
+
+
 #help_btn, #menu_btn {
 	display: none !important;
 }
 
 #main_rel {
-	padding: 20px;
-	font-size: 19px;
+	/*font-size: 19px;*/
 	color: #777777;;
 }
 
@@ -92,6 +146,47 @@
 
 
 /* Styles from proto used here as component styles */
+
+label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 0;
+  font-weight: normal;
+  color: #727272;
+  font-size: 15px;
+}
+
+/*
+.radio label:first-child {
+  margin-left: 0;
+}
+*/
+
+.intake-radio-component label.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+
+.intake-radio-component input[type="radio"] {
+  display:none;
+}
+
+.intake-radio-component input[type="radio"] + span {
+  background: url('../img/main/Icon_Radiobutton.gif') 0 -1px no-repeat;
+  padding-left: 36px;
+  padding-top: 4px;
+  min-height: 31px;
+  display: inline-block;
+  line-height: 24px;
+}
+
+.intake-radio-component input[type="radio"]:checked + span {
+  background-image: url('../img/main/Icon_Radiobutton_Sel.gif')
+}
+
+
+
 .checkbox-component {
 	position:relative;
 }
@@ -110,13 +205,6 @@
 
 .checkbox-component input[type="checkbox"].checked + span {
   background-image: url('../img/main/Icon_CheckboxSel.gif');
-}
-
-.checkbox-title {
-  font-size: 17px;
-  font-weight: normal;
-  color: #585858;
-  cursor: pointer;
 }
 
 .error-block {

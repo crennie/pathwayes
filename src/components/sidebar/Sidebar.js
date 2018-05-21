@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
 import SidebarPathway from './SidebarPathway'
 
+import { withApollo, graphql } from 'react-apollo'
+
+import { FETCH_USER_PATHWAYS } from '../../queries'
+
 // Represents the left column.  Will show other content
-class Sidebar extends Component {
+class SidebarComponent extends Component {
   // The "multi" questions are the path selectors
   isBlockingQuestion() {
-    return (!this.props.userPathways || !this.props.userPathways.length) ||
-      (this.props.currentNode.type === 'multi');
+    // TODO: Also have to make sure it's not a pathways question??
+    return !this.props.data.userPathways || !this.props.data.userPathways.length
   };
 
   emptyContentSidebar() {
@@ -22,15 +26,16 @@ class Sidebar extends Component {
     return (
       <div id="basket_list" className="item">
         <div className="info">
-          <p className="paths_count"><span>{this.props.userPathways.length}</span> pathways identified</p>
-          <p className="paths_completed"><span>{this.props.userPathways.filter(p => p.completed).length}</span> completed</p>
+          <p className="paths_count"><span>{this.props.data.userPathways.length}</span> pathways identified</p>
+          {/* TODO: <p className="paths_completed"><span>{this.props.data.userPathways.filter(p => p.completed).length}</span> completed</p>*/}
         </div>
         <ul>
-          {this.props.userPathways.map(p => (
-            <SidebarPathway title={p.title} description={p.description} key={p.title}></SidebarPathway>
+          {this.props.data.userPathways.map(p => (
+            <SidebarPathway title={p.pathwayTitle} description={p.description} key={p.id}></SidebarPathway>
           ))}
         </ul>
-        <button id="preview_btn">Preview report</button>
+
+        {/* TODO: Hide report button, not implemented <button id="preview_btn">Preview report</button>*/}
       </div>
     )
   }
@@ -40,6 +45,15 @@ class Sidebar extends Component {
 
   render() {
     console.log(this);
+
+    if (this.props.data.loading) {
+      return <div>Loading</div>
+    }
+
+    if (this.props.data.error) {
+      return <div>Error: {this.props.data.error}</div>
+    }
+
     const sidebar_content_jsx = this.isBlockingQuestion() ? this.emptyContentSidebar() : this.pathwaysSidebar();
     return (
       <div id="sidebar">
@@ -80,4 +94,12 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar
+export default withApollo(
+  graphql(FETCH_USER_PATHWAYS, {
+    options: (props) => ({
+      variables: {
+        // TODO: What variables should we really pass in?
+        explorationId: props.match.params.id
+      }
+    })
+  })(SidebarComponent))

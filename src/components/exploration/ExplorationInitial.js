@@ -21,7 +21,10 @@ class ExplorationInitialComponent extends Component {
   };
   onUpdateComplete() {
     // TODO: Is it ok to grab this from URL each time??
-    this.props.history.push(`/exploration/${this.props.match.params.id}/end`)
+    
+    // TODO: How do we get which progress item to go to??
+    // Hard code id=1 for now
+    this.props.history.push(`/exploration/${this.props.match.params.id}/progress/1`)
   };
 
   render() {
@@ -35,12 +38,13 @@ class ExplorationInitialComponent extends Component {
       return <div>Error: {error}</div>
     }
     return (
-      <div>
-        <ExplorationGeneralComponent {...this.props}></ExplorationGeneralComponent>
+      <div className="Instructions">
+        <ExplorationGeneralComponent {...this.props} />
         { true ? (
           <Mutation
             mutation={UPDATE_USER_EXPLORATION}
-            onCompleted={this.onUpdateComplete}
+            onError={/* TODO: For now, just proceed even on error*/ this.onUpdateComplete.bind(this)}
+            onCompleted={this.onUpdateComplete.bind(this)}
             update={(store, { data: { updateUserExploration } }) => {
               console.log(store, updateUserExploration)
               const currentExplorationId = updateUserExploration.userExplorationId
@@ -60,13 +64,13 @@ class ExplorationInitialComponent extends Component {
               console.log("ON SUBMIT SUCCESS?", result, dispatch, props, this)
               console.log(updateUserExploration, data, loading, error, called)
               updateUserExploration({ variables: {
-                explorationId: String(this.props.data.userExploration.userExplorationId),
+                explorationId: this.props.data.userExploration.userExplorationId,
                 acceptedTerms: result.acceptedTerms
               } })
             }
 
             return (
-              <ExplorationTermsForm initialValues={{ acceptedTerms: false }} onSubmitSuccess={formSubmitSuccess.bind(this)}></ExplorationTermsForm>
+              <ExplorationTermsForm {...{}/* TODO: Hook in initialValues initialValues={{ acceptedTerms: [] }}*/} onSubmitSuccess={formSubmitSuccess.bind(this)} />
             )
           }}
           </Mutation>

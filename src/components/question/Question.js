@@ -1,81 +1,108 @@
-import React, { Component } from 'react'
+import React from 'react'
+import AnswerSelectForm from '../../forms/AnswerSelect'
 
-class Question extends Component {
-  state = {
-    answer_selections: new Map()
-  };
+import { Mutation } from "react-apollo"
 
-  next_toggle(answer_selections) {
-    // TODO: This isn't the React way - state should be top level instead of having side effect funcs like this!
-    if (answer_selections.size) {
-      document.getElementById('next_btn').classList.add('enable');
-    } else {
-      document.getElementById('next_btn').classList.remove('enable');
-    }
-  };
 
-  handleRadioClick(e, answer) {
-    e.preventDefault()
-    let answer_selections = new Map()
-    answer_selections.set(answer.id, answer)
-    this.next_toggle(answer_selections)
-    this.setState({ answer_selections })
-  };
+// TODO: I don't know if we'll actually update user pathway
+//  or if we should be just creating / updating user steps here
+import { UPDATE_USER_PATHWAY, FETCH_USER_STEPS } from '../../queries'
 
-  handleCheckboxClick(e, answer) {
-    e.preventDefault()
-    let answer_selections = new Map(this.state.answer_selections)
-    if (this.state.answer_selections.has(answer.id)) {
-      answer_selections.delete(answer.id)
-    } else {
-      answer_selections.set(answer.id, answer)
-    }
-    this.next_toggle(answer_selections)
-    this.setState({ answer_selections })
-  };
 
-  questionAnswers(type) {
-    // type supports 'single' or 'multiple'
-    return (
-      <ul className="Question-answers">
-        {this.props.question.answers.map(answer => (
-          <li key={answer.id} className={this.state.answer_selections.has(answer.id) ? 'selected' : '' }>
-            <button className={type === 'single' ? 'radio' : 'checkbox'}
-              onClick={(e) => type === 'single' ? this.handleRadioClick(e, answer) : this.handleCheckboxClick(e, answer) } />
-            {answer.answer}
-            {answer.extra_text ? <p className="extra_text">{answer.extra_text}</p> : []}
-          </li>
-        ))}
-      </ul>
-    )
-  };
-  
-  singleQuestionAnswers() {
-    return this.questionAnswers('single')
-  };
+// TODO: How to get user pathway information into this component?? use graphQL and compose??
 
-  multiQuestionAnswers() {
-    return this.questionAnswers('multiple')
-    /*<div className="item select_paths">
-        <h2><span>Select paths to explore</span></h2>
-        <p className="question_text">Please select the items from the list below that you would like to answer questions about</p>
-        <p className="paths_count"><span>0</span> new pathways added</p>
-        <ul></ul>
-      </div>
-      */
-  };
+export default (props) => {
+  const { questionID, questionTitle, questionTitleText, answers, client } = props
+  return (
+    <div className="Question template_item" key={questionID}>
+      <p className="question_text">{questionTitle}</p>
+      <p className="question_extra_text">{questionTitleText}</p>
+      <Mutation
+          mutation={UPDATE_USER_PATHWAY}
+          update={(store, { data: { updateUserPathway } }) => {
+            console.log(store, updateUserPathway)
+            // TODO: Update cache with mutation result
+          }}
+        >
+        {(updateUserPathway, { data, loading, error, called }) => {
+            console.log(data, loading, error, called, updateUserPathway)
+            const formSubmitSuccess = (result) => {
+              console.log("ON SUBMIT SUCCESS?", result)
+              /*
+              updateUserPathway({ variables: {
+                userPathwayId: 'FOO' //TODO,
+              } })
+              */
+            // TODO: Hide the update call for now
+            
+            console.log("Selected answer", result)
+            const selectedAnswerIndex = parseInt(result.answer[0]),
+              selectedAnswerText = answers[selectedAnswerIndex].title
 
-  
-  render() {
-    const answer_jsx = this.props.question.type === 'multiple' ? this.multiQuestionAnswers() : this.singleQuestionAnswers()
-    return (
-      <div className="Question item template_item">
-        <p className="question_text">{this.props.question.question}</p>
-        <p className="question_extra_text">{this.props.question.extra_text}</p>
-        {answer_jsx}
-      </div>
-    )
-  }
+            let userStepToApi = {
+              id: Math.random(),
+              questionID,
+              modifiedDate: new Date(),
+              createdDate: new Date(),
+              __typename: 'FakeUserStep'
+            }
+            let response = client.readQuery({ query: FETCH_USER_STEPS })
+            let foundIndex = -1
+            response.userSteps.forEach((s, index) => {
+              if (foundIndex !== -1) {
+                return
+              }
+              if (s.questionID === questionID) {
+                Object.assign(userStepToApi, s)
+                foundIndex = index
+              }
+            })
+            if (foundIndex !== -1) {
+              response.userSteps.splice(foundIndex, 1)
+            }
 
+            // Update selected item and re-push
+            userStepToApi.answerIndex = selectedAnswerIndex
+            userStepToApi.answer = selectedAnswerText
+            response.userSteps.push(userStepToApi)
+            
+
+            // Fake a create UserStep
+            // Add the new step => 
+            client.writeQuery({
+              query: FETCH_USER_STEPS,
+              data: {
+                userSteps: [...response.userSteps]
+              }
+            })
+
+            Promise.resolve().then( () => {
+                // Go to the page defined in the next answerID
+                console.log(result)
+                const answer = result.answer,
+                  answer_index = parseInt(answer),
+                  selected_answer = Number.isNaN(answer_index) ? {} : answers[answer_index],
+                  { nextItemID, nextItemType } = selected_answer
+                
+                // TODO: What if next answer is not found?
+                if (!nextItemID || !nextItemType) {
+                  console.log(`[Error] Invalid next item ID and type: `, selected_answer)
+                } else {
+                  props.history.push(`/exploration/${props.match.params.id}/progress/${nextItemID}`)
+                }
+              })
+            }
+
+            if (error) {
+              return <div><i>There was an error saving the answer you selected</i></div>
+            }
+            
+            return (
+              <AnswerSelectForm questionID={questionID} answers={answers} onSubmitSuccess={formSubmitSuccess} />
+            )
+          }}
+      </Mutation>
+    </div>
+  )
 }
-export default Question
+// TODO: Add some prop types for requiredness!

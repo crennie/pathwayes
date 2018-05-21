@@ -1,11 +1,20 @@
 import React from 'react'
 
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'
+
+// TODO: Get these working with or without jquery?
+//import { openModal, closeModal } from '../modal/Modal'
 
 const Header = (props) => {
   const handleCloseClick = (e) => {
-    e.preventDefault()
+    /*e.stopPropagation();
+    var title = 'Logout';
+    var body = 'Are you sure you want to log out?';
+    var link = 'Log out';
+    openModal(title, body, link);
+    //menu_close();
     // TODO: Maybe show a modal
+    */
     props.history.push('/logout')
   }
   return (
